@@ -22,9 +22,11 @@ public class StudentDormitory {
     @Column
     private String name;
 
-
     @OneToMany(mappedBy = "studentDormitory")
     private List<LaundryMachine> laundryMachines;
+
+    @OneToMany(mappedBy = "studentDormitory")
+    private List<User> users;
 
 
 }

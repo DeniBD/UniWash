@@ -35,6 +35,10 @@ public class User {
     @Column
     private int currentWeekAppointments;
 
+    @ManyToOne
+    @JoinColumn(name = "student_dormitory_id", referencedColumnName = "id")
+    private StudentDormitory studentDormitory;
+
     @OneToMany(mappedBy = "user")
     private List<LaundryBooking> laundryBookingList;
 
