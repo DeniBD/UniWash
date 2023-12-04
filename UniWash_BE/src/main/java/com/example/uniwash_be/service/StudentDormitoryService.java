@@ -27,4 +27,7 @@ public class StudentDormitoryService {
         return dormitoryMapper.toDtos(studentDormitoryRepository.findAll());
     }
 
+    public void deleteDormitory(Long dormitoryId) {
+        studentDormitoryRepository.deleteById(dormitoryId);
+    }
 }

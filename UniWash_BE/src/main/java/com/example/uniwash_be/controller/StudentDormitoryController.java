@@ -27,5 +27,10 @@ public class StudentDormitoryController {
         studentDormitoryService.addDormitory(dormitoryDto);
         return ResponseEntity.ok().build();
     }
-    
+
+    @DeleteMapping("{dormitoryId}")
+    public ResponseEntity<?> deleteDormitory(@PathVariable Long dormitoryId) {
+        studentDormitoryService.deleteDormitory(dormitoryId);
+        return ResponseEntity.ok().build();
+    }
 }
