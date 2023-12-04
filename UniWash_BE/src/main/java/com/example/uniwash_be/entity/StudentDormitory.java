@@ -22,7 +22,7 @@ public class StudentDormitory {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "studentDormitory")
+    @OneToMany(mappedBy = "studentDormitory", cascade = CascadeType.REMOVE)
     private List<LaundryMachine> laundryMachines;
 
 }
