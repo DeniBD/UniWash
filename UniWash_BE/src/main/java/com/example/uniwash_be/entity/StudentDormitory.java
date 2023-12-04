@@ -25,8 +25,4 @@ public class StudentDormitory {
     @OneToMany(mappedBy = "studentDormitory")
     private List<LaundryMachine> laundryMachines;
 
-    @OneToMany(mappedBy = "studentDormitory")
-    private List<User> users;
-
-
 }
