@@ -31,10 +31,7 @@ public class User {
 
     @Column(nullable = false)
     private boolean is_admin;
-
-    @Column
-    private int currentWeekAppointments;
-
+    
     @ManyToOne
     @JoinColumn(name = "student_dormitory_id", referencedColumnName = "id")
     private StudentDormitory studentDormitory;
