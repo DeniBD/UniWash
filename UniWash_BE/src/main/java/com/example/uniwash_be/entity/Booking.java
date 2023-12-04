@@ -25,9 +25,6 @@ public class Booking {
     private LocalTime startTime;
 
     @Column
-    private LocalTime endTime;
-
-    @Column
     private String status;
 
     @ManyToOne
