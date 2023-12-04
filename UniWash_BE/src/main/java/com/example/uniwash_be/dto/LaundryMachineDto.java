@@ -6,5 +6,5 @@ import com.example.uniwash_be.entity.enums.LaundryMachineType;
 public record LaundryMachineDto(Long id,
                                 String name,
                                 LaundryMachineType type,
-                                StudentDormitory dormitory) {
+                                DormitoryDto dormitory) {
 }
