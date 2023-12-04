@@ -18,6 +18,11 @@ public class LaundryMachineController {
         this.laundryMachineService = laundryMachineService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<LaundryMachineDto>> getAllLaundryMachines() {
+        return ResponseEntity.ok(laundryMachineService.getAllLaundryMachines());
+    }
+
     @PostMapping
     public ResponseEntity<?> addLaundryMachine(@RequestBody LaundryMachineDto laundryMachineDto) {
         laundryMachineService.addLaundryMachine(laundryMachineDto);

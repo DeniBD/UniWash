@@ -38,4 +38,7 @@ public class LaundryMachineService {
         laundryMachineRepository.save(dryer);
     }
 
+    public List<LaundryMachineDto> getAllLaundryMachines() {
+        return laundryMapper.toDtos(laundryMachineRepository.findAll());
+    }
 }
