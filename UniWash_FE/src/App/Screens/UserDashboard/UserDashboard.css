@@ -38,6 +38,17 @@
 
             .Occupied{
                 height: 40%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                .Cards{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    height: 70%;
+                }
             }
 
             .Current{
@@ -63,4 +74,15 @@
         }
     }
 
+    .card {
+        width: 45%;
+        height: 80%;
+        margin: 10px;
+        border-radius: 20px;
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 }
