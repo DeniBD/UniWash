@@ -29,4 +29,10 @@ public class LaundryMachineController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("{machineId}")
+    public ResponseEntity<?> deleteLaundryMachine(@PathVariable Long machineId) {
+        laundryMachineService.deleteLaundryMachine(machineId);
+        return ResponseEntity.ok().build();
+    }
+
 }

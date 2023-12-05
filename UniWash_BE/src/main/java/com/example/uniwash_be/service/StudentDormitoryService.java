@@ -1,9 +1,8 @@
 package com.example.uniwash_be.service;
 
-import com.example.uniwash_be.dto.DormitoryDto;
-import com.example.uniwash_be.mapper.DormitoryMapper;
+import com.example.uniwash_be.dto.StudentDormitoryDto;
+import com.example.uniwash_be.mapper.StudentDormitoryMapper;
 import com.example.uniwash_be.repository.StudentDormitoryRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,22 +11,23 @@ import java.util.List;
 public class StudentDormitoryService {
 
     private final StudentDormitoryRepository studentDormitoryRepository;
-    private final DormitoryMapper dormitoryMapper;
 
-    public StudentDormitoryService(StudentDormitoryRepository studentDormitoryRepository, DormitoryMapper dormitoryMapper) {
+    private final StudentDormitoryMapper studentDormitoryMapper;
+
+    public StudentDormitoryService(StudentDormitoryRepository studentDormitoryRepository, StudentDormitoryMapper studentDormitoryMapper) {
         this.studentDormitoryRepository = studentDormitoryRepository;
-        this.dormitoryMapper = dormitoryMapper;
+        this.studentDormitoryMapper = studentDormitoryMapper;
     }
 
-    public void addDormitory(DormitoryDto dormitoryDto) {
-        studentDormitoryRepository.save(dormitoryMapper.toEntity(dormitoryDto));
+    public void addDormitory(StudentDormitoryDto studentDormitoryDto) {
+        studentDormitoryRepository.save(studentDormitoryMapper.toEntity(studentDormitoryDto));
     }
 
-    public List<DormitoryDto> getAllDormitories() {
-        return dormitoryMapper.toDtos(studentDormitoryRepository.findAll());
+    public List<StudentDormitoryDto> getAllDormitories() {
+        return studentDormitoryMapper.toDtos(studentDormitoryRepository.findAll());
     }
 
-    public void deleteDormitory(Long dormitoryId) {
-        studentDormitoryRepository.deleteById(dormitoryId);
+    public void deleteDormitory(Long studentDormitoryId) {
+        studentDormitoryRepository.deleteById(studentDormitoryId);
     }
 }

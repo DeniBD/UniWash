@@ -10,4 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface LaundryMachineRepository extends JpaRepository<LaundryMachine, Long> {
+    Optional<LaundryMachine> findByNameEqualsAndTypeEquals(String name, LaundryMachineType laundryMachineType);
+    Optional<List<LaundryMachine>> findByStudentDormitory_Id(Long id);
 }
