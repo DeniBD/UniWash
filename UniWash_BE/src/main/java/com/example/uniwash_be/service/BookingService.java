@@ -76,5 +76,17 @@ public class BookingService {
         }
     }
 
+    public List<BookingDto> getAllBookingsInDormitory(Long dormitoryId) {
+        List<LaundryMachine> laundryMachines = laundryMachineRepository.findByStudentDormitory_Id(dormitoryId)
+                .orElseThrow(() -> new NoSuchElementException("No bookings found in dormitory with id + " + dormitoryId));
+        List<Booking> bookingsInDormitory = laundryMachines.stream()
+                .flatMap(l -> l.getBookingList().stream())
+                .toList();
+        return bookingMapper.toDtos(bookingsInDormitory);
+    }
+
+    public void deleteBooking(Long bookingId) {
+        bookingRepository.deleteById(bookingId);
+    }
 }
 
