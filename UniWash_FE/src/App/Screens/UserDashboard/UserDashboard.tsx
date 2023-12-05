@@ -2,18 +2,28 @@ import React from 'react';
 import Menu from "../../Components/Menu/Menu";
 import "./UserDashboard.css"
 import stats from '../../Assets/stats.png'
+import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 interface CardProps {
     title: string;
     percentage: number;
-    color?: string; // Optional color prop
+    color?: string;
 }
 
 const Card: React.FC<CardProps> = ({ title, percentage, color }) => {
     return (
         <div className="card" style={{ backgroundColor: color }}>
             <h3>{title}</h3>
-            <p>{percentage}%</p>
+            <CircularProgressbar
+                value={percentage}
+                text={`${percentage}%`}
+                styles={buildStyles({
+                    pathColor: "white",
+                    trailColor: "rgba(240, 240, 240, 0.7)",
+                    textColor: "white",
+                })}
+            />
         </div>
     );
 };
@@ -33,8 +43,8 @@ function UserDashboard() {
                             Stare Ocupare Masini
                         </div>
                         <div className="Cards">
-                            <Card title="Masini de spalat" percentage={75} color="#369FFF" />
-                            <Card title="Uscatoare" percentage={50} color="#FF7E07" />
+                            <Card title="Saptamana Curenta" percentage={75} color="#369FFF" />
+                            <Card title="Saptamana Viitoare" percentage={50} color="#FF7E07" />
                         </div>
                     </div>
                     <div className="Current">
