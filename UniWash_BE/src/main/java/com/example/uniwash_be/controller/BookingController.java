@@ -27,7 +27,11 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<?> bookWashingMachine(@RequestBody BookingDto bookingDto) {
-        bookingService.addBooking(bookingDto);
+        try {
+            bookingService.addBooking(bookingDto);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok().build();
     }
 

@@ -3,6 +3,7 @@ package com.example.uniwash_be.util;
 import com.example.uniwash_be.dto.BookingDto;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,10 +14,10 @@ public class BookingUtil {
     private static final LocalTime BOOKING_START_TIME = LocalTime.of(8, 0);
     private static final LocalTime BOOKING_END_TIME = LocalTime.of(20, 0);
 
-    public static boolean areBookingsInCurrentWeek(List<BookingDto> bookingDtos) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime startOfWeek = now.with(DayOfWeek.MONDAY).toLocalDate().atTime(BOOKING_START_TIME);
-        LocalDateTime endOfWeek = now.with(DayOfWeek.SUNDAY).toLocalDate().atTime(BOOKING_END_TIME);
+    public static boolean areBookingsInWeek(List<BookingDto> bookingDtos, LocalDate date) {
+        LocalDateTime dateTime = date.atStartOfDay();
+        LocalDateTime startOfWeek = dateTime.with(DayOfWeek.MONDAY).toLocalDate().atTime(BOOKING_START_TIME);
+        LocalDateTime endOfWeek = dateTime.with(DayOfWeek.SUNDAY).toLocalDate().atTime(BOOKING_END_TIME);
         List<LocalDateTime> bookingsInCurrentWeek = bookingDtos.stream()
                 .map(booking -> LocalDateTime.of(booking.date(), booking.startTime()))
                 .filter(time -> time.isAfter(startOfWeek) && time.isBefore(endOfWeek))
@@ -25,7 +26,7 @@ public class BookingUtil {
     }
 
     public static List<LocalTime> computeAvailableBookingTimes(List<BookingDto> bookingDtos) {
-        List<LocalTime> bookingHoursInDay = IntStream.range(8, 20)
+        List<LocalTime> bookingHoursInDay = IntStream.range(8, 21)
                 .filter(hour -> hour % 2 == 0)
                 .mapToObj(hour -> LocalTime.of(hour, 0))
                 .toList();

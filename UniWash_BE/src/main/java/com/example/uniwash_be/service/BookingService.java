@@ -50,7 +50,7 @@ public class BookingService {
     }
 
     public void addBooking(BookingDto bookingDto) {
-        assertUserIsEligibleForBooking(bookingDto.user());
+        assertUserIsEligibleForBooking(bookingDto.user(), bookingDto.date());
         bookingRepository.save(bookingMapper.toEntity(bookingDto));
         addDryerBooking(bookingDto);
     }
@@ -69,11 +69,11 @@ public class BookingService {
         bookingRepository.save(dryerBooking);
     }
 
-    private void assertUserIsEligibleForBooking(UserDto user) {
+    private void assertUserIsEligibleForBooking(UserDto user, LocalDate date) {
         List<BookingDto> bookingsByUser = getBookingsByUser(user.id());
-        boolean areBookingsInCurrentWeek = BookingUtil.areBookingsInCurrentWeek(bookingsByUser);
+        boolean areBookingsInCurrentWeek = BookingUtil.areBookingsInWeek(bookingsByUser, date);
         if (areBookingsInCurrentWeek) {
-            throw new RuntimeException("User " + user + " has already made a booking in the current week.");
+            throw new RuntimeException("User with email: " + user.email() + " has already made a booking in the current week.");
         }
     }
 
@@ -104,6 +104,11 @@ public class BookingService {
     }
 
     public void deleteBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new NoSuchElementException("No booking found with id + " + bookingId));
+        Booking dryerBooking = bookingRepository.findByDateAndStartTimeAndLaundryMachine_Type(booking.getDate(), booking.getStartTime().plusHours(2), LaundryMachineType.DRYING_MACHINE)
+                .orElseThrow(() -> new NoSuchElementException("No dryer booking found for booking with id + " + bookingId));
+        bookingRepository.delete(dryerBooking);
         bookingRepository.deleteById(bookingId);
     }
 }
