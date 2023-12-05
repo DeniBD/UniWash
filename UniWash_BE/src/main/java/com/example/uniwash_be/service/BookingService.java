@@ -1,5 +1,6 @@
 package com.example.uniwash_be.service;
 
+import com.example.uniwash_be.dto.AvailableBookingSpot;
 import com.example.uniwash_be.dto.BookingDto;
 import com.example.uniwash_be.dto.UserDto;
 import com.example.uniwash_be.entity.Booking;
@@ -74,6 +75,23 @@ public class BookingService {
         if (areBookingsInCurrentWeek) {
             throw new RuntimeException("User " + user + " has already made a booking in the current week.");
         }
+    }
+
+    public List<AvailableBookingSpot> getAvailableSlotsForWashingMachine(Long washingMachineId, LocalDate day) {
+        LaundryMachine laundryMachine = laundryMachineRepository.findById(washingMachineId)
+                .orElseThrow(() -> new NoSuchElementException("Washing machine with id + " + washingMachineId + " not found."));
+        return computeAvailableSpotsForWashingMachine(laundryMachine, day);
+    }
+
+    private List<AvailableBookingSpot> computeAvailableSpotsForWashingMachine(LaundryMachine laundryMachine, LocalDate day) {
+        List<Booking> existingBookingsInDay = laundryMachine.getBookingList().stream()
+                .filter(b -> b.getDate().equals(day))
+                .toList();
+        List<LocalTime> availableTimes = BookingUtil.computeAvailableBookingTimes(bookingMapper.toDtos(existingBookingsInDay));
+        List<AvailableBookingSpot> availableBookingSpots = availableTimes.stream()
+                .map(time -> new AvailableBookingSpot(day, time))
+                .toList();
+        return availableBookingSpots;
     }
 
     public List<BookingDto> getAllBookingsInDormitory(Long dormitoryId) {

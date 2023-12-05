@@ -1,5 +1,6 @@
 package com.example.uniwash_be.controller;
 
+import com.example.uniwash_be.dto.AvailableBookingSpot;
 import com.example.uniwash_be.dto.BookingDto;
 import com.example.uniwash_be.service.BookingService;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,12 @@ public class BookingController {
     public ResponseEntity<?> deleteBooking(@PathVariable Long bookingId) {
         bookingService.deleteBooking(bookingId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("available-spots/{machineId}/{date}")
+    public ResponseEntity<List<AvailableBookingSpot>> availableBookingSpotsForWashingMachine(@PathVariable Long machineId, @PathVariable LocalDate date) {
+        List<AvailableBookingSpot> availableBookingSpots = bookingService.getAvailableSlotsForWashingMachine(machineId, date);
+        return ResponseEntity.ok(availableBookingSpots);
     }
 
 }
