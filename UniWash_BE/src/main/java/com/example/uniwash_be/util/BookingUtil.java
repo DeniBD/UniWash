@@ -29,6 +29,7 @@ public class BookingUtil {
         List<LocalTime> bookingHoursInDay = IntStream.range(8, 21)
                 .filter(hour -> hour % 2 == 0)
                 .mapToObj(hour -> LocalTime.of(hour, 0))
+                .filter(hour -> hour.isAfter(LocalTime.now()))
                 .toList();
         List<LocalTime> existingBookingTimes = bookingDtos.stream()
                 .map(BookingDto::startTime)
