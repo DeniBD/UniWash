@@ -7,6 +7,35 @@
     .Content{
         flex: 1;
         padding: 10px;
+        display: flex;
+        flex-direction: row;
+
+        .Reservations{
+            width: 60%;
+            height: 100%;
+            padding: 20px;
+
+            .Greeting{
+                color: rgba(54, 159, 255, 1);
+            }
+        }
+
+        .Statistics{
+            width: 40%;
+            height: 100%;
+            border-left: 2px solid rgba(240, 240, 240, 1);
+            padding: 20px;
+            position: relative;
+
+            .Stats{
+                position: absolute;
+                bottom: 0;
+                width: 27vw;
+                height: 30vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
     }
 
 }

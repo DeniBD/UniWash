@@ -5,7 +5,7 @@ import myImage from "../../Assets/Time management-cuate.png"
 import {Link, NavLink} from "react-router-dom";
 function Menu()  {
     return (
-        <div className="menu">
+        <div className="Menu">
             <div className="Title">UNIWASH</div>
             <div className="Links">
                 <div className="MenuElem">
