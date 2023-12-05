@@ -2,7 +2,7 @@ import React from 'react';
 import './Menu.css';
 import {BiCategory, BiConversation, BiHome} from "react-icons/bi";
 import myImage from "../../Assets/Time management-cuate.png"
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 function Menu()  {
     return (
         <div className="Menu">
@@ -23,12 +23,12 @@ function Menu()  {
                 <div className="MenuElem">
                     <NavLink to="/messages" className="active-link">
                         <BiConversation />
-                        <a>Mesaje</a>
+                        <div>Mesaje</div>
                     </NavLink>
                 </div>
             </div>
             <div>
-                <img className="Photo" src={myImage} alt="photo"/>
+                <img className="Photo" src={myImage} alt="Person"/>
             </div>
             <div className="Decoration"></div>
         </div>
