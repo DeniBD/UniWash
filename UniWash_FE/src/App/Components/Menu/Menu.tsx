@@ -9,7 +9,7 @@ function Menu()  {
             <div className="Title">UNIWASH</div>
             <div className="Links">
                 <div className="MenuElem">
-                    <NavLink to="/" className="active-link">
+                    <NavLink to="/dashboard" className="active-link">
                         <BiHome />
                         <div>Dashboard</div>
                     </NavLink>

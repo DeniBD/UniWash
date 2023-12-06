@@ -4,6 +4,7 @@ import "./UserDashboard.css"
 import stats from '../../Assets/stats.png'
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import AppointmentCard from "../../Components/AppointmentCard/AppointmentCard";
 
 interface CardProps {
     title: string;
@@ -29,6 +30,10 @@ const Card: React.FC<CardProps> = ({ title, percentage, color }) => {
 };
 
 function UserDashboard() {
+
+    const date = '2023-12-06';
+    const time = '03:00 PM-04:00 PM';
+
     return (
         <div className="App">
             <Menu/>
@@ -50,6 +55,9 @@ function UserDashboard() {
                     <div className="Current">
                         <div className="Title">
                             Rezervarile tale
+                        </div>
+                        <div className="Appointments">
+                            <AppointmentCard date={date} time={time} />
                         </div>
                     </div>
                 </div>
