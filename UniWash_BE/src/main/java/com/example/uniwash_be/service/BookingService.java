@@ -2,6 +2,7 @@ package com.example.uniwash_be.service;
 
 import com.example.uniwash_be.dto.AvailableBookingSpot;
 import com.example.uniwash_be.dto.BookingDto;
+import com.example.uniwash_be.dto.StudentDormitoryDto;
 import com.example.uniwash_be.dto.UserDto;
 import com.example.uniwash_be.entity.Booking;
 import com.example.uniwash_be.entity.LaundryMachine;
@@ -15,6 +16,7 @@ import com.example.uniwash_be.repository.UserRepository;
 import com.example.uniwash_be.util.BookingUtil;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,18 +30,20 @@ public class BookingService {
     private final LaundryMachineRepository laundryMachineRepository;
     private final BookingMapper bookingMapper;
     private final UserMapper userMapper;
+    private final LaundryMachineService laundryMachineService;
 
 
     public BookingService(BookingRepository bookingRepository,
                           UserRepository userRepository,
                           LaundryMachineRepository laundryMachineRepository,
                           BookingMapper bookingMapper,
-                          UserMapper userMapper) {
+                          UserMapper userMapper, LaundryMachineService laundryMachineService) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
         this.laundryMachineRepository = laundryMachineRepository;
         this.bookingMapper = bookingMapper;
         this.userMapper = userMapper;
+        this.laundryMachineService = laundryMachineService;
     }
 
     public List<BookingDto> getBookingsByUser(Long userId) {
@@ -110,6 +114,38 @@ public class BookingService {
                 .orElseThrow(() -> new NoSuchElementException("No dryer booking found for booking with id + " + bookingId));
         bookingRepository.delete(dryerBooking);
         bookingRepository.deleteById(bookingId);
+    }
+
+    public Integer getBookedSlotsForCurrentWeek(StudentDormitoryDto studentDormitoryDto) {
+        LocalDate currentDate = LocalDate.now();
+
+        LocalDate mondayOfWeek = currentDate.with(DayOfWeek.MONDAY);
+
+        LocalDate sundayOfWeek = currentDate.with(DayOfWeek.SUNDAY);
+
+        List<Booking> bookingsInCurrentWeek = getAllBookingsInDormitory(studentDormitoryDto.id())
+                .stream()
+                .map(BookingMapper::toEntity)
+                .filter(booking -> booking.getDate().isAfter(mondayOfWeek) && booking.getDate().isBefore(sundayOfWeek))
+                .toList();
+        int numberOfLaundryMachines = (laundryMachineService.getLaundryMachinesByStudentDormitoryId(studentDormitoryDto.id()).size())/2;
+        return (int) ((100 * bookingsInCurrentWeek.size()/2) / (49.0 * numberOfLaundryMachines));
+    }
+
+    public Integer getBookedSlotsForNextWeek(StudentDormitoryDto studentDormitoryDto) {
+        LocalDate currentDate = LocalDate.now();
+
+        LocalDate mondayOfWeek = currentDate.with(DayOfWeek.MONDAY).plusDays(7);
+
+        LocalDate sundayOfWeek = currentDate.with(DayOfWeek.SUNDAY).plusDays(7);
+
+        List<Booking> bookingsInCurrentWeek = getAllBookingsInDormitory(studentDormitoryDto.id())
+                .stream()
+                .map(BookingMapper::toEntity)
+                .filter(booking -> booking.getDate().isAfter(mondayOfWeek) && booking.getDate().isBefore(sundayOfWeek))
+                .toList();
+        int numberOfLaundryMachines = (laundryMachineService.getLaundryMachinesByStudentDormitoryId(studentDormitoryDto.id()).size())/2;
+        return (int) ((100 * bookingsInCurrentWeek.size()/2) / (49.0 * numberOfLaundryMachines));
     }
 }
 

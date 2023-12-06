@@ -54,4 +54,7 @@ public class LaundryMachineService {
         return laundryMachineMapper.toDtos(laundryMachineRepository.findAll());
     }
 
+    public List<LaundryMachineDto> getLaundryMachinesByStudentDormitoryId(Long studentDormitoryId) {
+        return laundryMachineMapper.toDtos(laundryMachineRepository.findAllByStudentDormitory_Id(studentDormitoryId).orElseThrow(() -> new NoSuchElementException("No laundry machines found with student dormitory id + " + studentDormitoryId)));
+    }
 }

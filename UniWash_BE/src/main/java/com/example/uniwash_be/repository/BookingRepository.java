@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Optional<Booking> findByDateAndStartTimeAndLaundryMachine_Type(
             LocalDate date, LocalTime startTime, LaundryMachineType machineType);
+
+    Optional<List<Booking>> findAllByDateBetween(LocalDate now, LocalDate localDate);
 }

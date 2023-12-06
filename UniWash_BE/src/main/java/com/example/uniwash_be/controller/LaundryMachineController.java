@@ -35,4 +35,9 @@ public class LaundryMachineController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("{studentDormitoryId}")
+    public ResponseEntity<List<LaundryMachineDto>> getLaundryMachinesByStudentDormitoryId (@PathVariable Long studentDormitoryId) {
+        return ResponseEntity.ok(laundryMachineService.getLaundryMachinesByStudentDormitoryId(studentDormitoryId));
+    }
+
 }

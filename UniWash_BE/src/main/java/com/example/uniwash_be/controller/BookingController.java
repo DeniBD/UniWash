@@ -2,6 +2,7 @@ package com.example.uniwash_be.controller;
 
 import com.example.uniwash_be.dto.AvailableBookingSpot;
 import com.example.uniwash_be.dto.BookingDto;
+import com.example.uniwash_be.dto.StudentDormitoryDto;
 import com.example.uniwash_be.service.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,18 @@ public class BookingController {
     @GetMapping("available-spots/{machineId}/{date}")
     public ResponseEntity<List<AvailableBookingSpot>> availableBookingSpotsForWashingMachine(@PathVariable Long machineId, @PathVariable LocalDate date) {
         List<AvailableBookingSpot> availableBookingSpots = bookingService.getAvailableSlotsForWashingMachine(machineId, date);
+        return ResponseEntity.ok(availableBookingSpots);
+    }
+
+    @GetMapping("booked-spots-in-current-week")
+    public ResponseEntity<Integer> getBookedSlotsForCurrentWeek(@RequestBody StudentDormitoryDto studentDormitoryDto){
+        Integer availableBookingSpots = bookingService.getBookedSlotsForCurrentWeek(studentDormitoryDto);
+        return ResponseEntity.ok(availableBookingSpots);
+    }
+
+    @GetMapping("booked-spots-in-next-week")
+    public ResponseEntity<Integer> getBookedSlotsForNextWeek(@RequestBody StudentDormitoryDto studentDormitoryDto){
+        Integer availableBookingSpots = bookingService.getBookedSlotsForNextWeek(studentDormitoryDto);
         return ResponseEntity.ok(availableBookingSpots);
     }
 
