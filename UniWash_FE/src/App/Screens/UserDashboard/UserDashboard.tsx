@@ -5,6 +5,7 @@ import stats from '../../Assets/stats.png'
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import AppointmentCard from "../../Components/AppointmentCard/AppointmentCard";
+import { Grid } from '@material-ui/core';
 
 interface CardProps {
     title: string;
@@ -57,7 +58,14 @@ function UserDashboard() {
                             Rezervarile tale
                         </div>
                         <div className="Appointments">
-                            <AppointmentCard date={date} time={time} />
+                            <Grid container xs={12}>
+                                <Grid item xs={6}>
+                                    <AppointmentCard date={date} time={time} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <AppointmentCard date={date} time={time} />
+                                </Grid>
+                            </Grid>
                         </div>
                     </div>
                 </div>

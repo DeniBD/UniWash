@@ -1,4 +1,5 @@
 import React from 'react';
+import './AppointmentCard.css';
 
 interface TextBoxProps {
     date: string;

@@ -6,7 +6,8 @@ import {NavLink} from "react-router-dom";
 function Menu()  {
     return (
         <div className="Menu">
-            <div className="Title">UNIWASH</div>
+            {/* <div><img className="Title" src={require('../../Assets/UniWash.png')} alt="Logo"/></div> */}
+            <div className="Title">UniWash</div>
             <div className="Links">
                 <div className="MenuElem">
                     <NavLink to="/dashboard" className="active-link">
