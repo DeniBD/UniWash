@@ -1,18 +1,26 @@
+
 import React from 'react';
-import './AppointmentCard.css';
+import Dots from '../../Assets/dots2.png';
 
-interface TextBoxProps {
-    date: string;
-    time: string;
-}
+import AppointmentCardCSS from './AppointmentCard.module.css';
 
-const AppointmentCard: React.FC<TextBoxProps> = ({ date, time }) => {
+function AppointmentCard ( props: { title: string; start_time: number; onClick?: any; } ) {
     return (
-        <div className="text-box">
-            <div>{date}</div>
-            <div>{time}</div>
+        <div className={AppointmentCardCSS["card"]} onClick={props.onClick}>
+            <div className={AppointmentCardCSS["card_details"]}>
+                <div className={AppointmentCardCSS["card_title"]}>
+                    {props.title}
+                </div>
+                <div className={AppointmentCardCSS["card_time"]}>
+                    {props.start_time}
+                    {":00 - "}
+                    {props.start_time + 2}
+                    {":00"}
+                </div>
+            </div>
+            <img src={Dots} alt="dots" className={AppointmentCardCSS["card_dots"]}/>
         </div>
     );
-};
+}
 
 export default AppointmentCard;

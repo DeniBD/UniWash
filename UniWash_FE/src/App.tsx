@@ -1,22 +1,30 @@
-import React from 'react';
-import './App.css';
-import UserDashboard from "./App/Screens/UserDashboard/UserDashboard";
-import { Route, Routes } from "react-router";
-import Reservations from "./App/Screens/Reservations/Reservations";
-import Messages from "./App/Screens/Messages/Messages";
-import Login from './App/Screens/Login/Login';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
+
+import Dashboard from "./App/Screens/Dashboard/Dashboard";
+import Planificari from "./App/Screens/Planificari/Planificari";
+import React from "react";
+import Login from "./App/Screens/Login/Login";
 
 function App() {
-  return (
-    <div>
-      <Routes>
-          <Route path = "/" element = {<Login/>}/>
-          <Route path = "/dashboard" element = {<UserDashboard/>}/>
-          <Route path = "/reservations" element={<Reservations/>}/>
-          <Route path = "/messages" element={<Messages/>}/>
-      </Routes>
-    </div>
-  );
+  	return (
+		<>
+			<Router>
+				<Routes>
+					<Route path="/" element={<Login/>} />
+					<Route path="/dashboard" element={<Dashboard />} />
+
+					<Route path="/planificari" element={<Planificari />} />
+
+					<Route path="*" element={<Navigate to="/dashboard" />} />
+				</Routes>
+			</Router>
+		</>
+  	);
 }
 
 export default App;

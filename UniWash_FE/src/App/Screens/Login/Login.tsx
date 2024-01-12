@@ -1,6 +1,12 @@
 import { Button, Grid, Paper, TextField } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 import "./Login.css";
+import React from 'react';
 const Login = () => {
+    const navigate = useNavigate();
+    const handleLogin = () => {
+        navigate('/dashboard');
+    }
     return (
         <Grid container className="page">
             <Grid item xs={12} sm={7} md={7} lg={8}>
@@ -36,6 +42,7 @@ const Login = () => {
                             variant="contained"
                             color="primary"
                             className="button"
+                            onClick = {handleLogin}
 
                         >
                             Login
