@@ -65,5 +65,17 @@ public class BookingController {
         Integer availableBookingSpots = bookingService.getBookedSlotsForNextWeek(studentDormitoryDto);
         return ResponseEntity.ok(availableBookingSpots);
     }
+    @GetMapping("bookings-in-current-week/{userId}")
+    public ResponseEntity<List<BookingDto>> getBookingsInCurrentWeekByUser(@PathVariable Long userId){
+        List<BookingDto> bookingsInCurrentWeek = bookingService.getBookingsInCurrentWeekByUser(userId);
+        return ResponseEntity.ok(bookingsInCurrentWeek);
+    }
+
+    @GetMapping("bookings-in-next-week/{userId}")
+    public ResponseEntity<List<BookingDto>> getBookingsInNextWeekByUser(@PathVariable Long userId){
+        List<BookingDto> bookingsInNextWeek = bookingService.getBookingsInNextWeekByUser(userId);
+        return ResponseEntity.ok(bookingsInNextWeek);
+    }
+
 
 }

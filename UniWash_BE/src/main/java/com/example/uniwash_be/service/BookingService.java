@@ -91,7 +91,9 @@ public class BookingService {
         List<Booking> existingBookingsInDay = laundryMachine.getBookingList().stream()
                 .filter(b -> b.getDate().equals(day))
                 .toList();
-        List<LocalTime> availableTimes = BookingUtil.computeAvailableBookingTimes(bookingMapper.toDtos(existingBookingsInDay));
+
+        List<LocalTime> availableTimes = BookingUtil.computeAvailableBookingTimes(bookingMapper.toDtos(existingBookingsInDay), day);
+
         List<AvailableBookingSpot> availableBookingSpots = availableTimes.stream()
                 .map(time -> new AvailableBookingSpot(day, time))
                 .toList();
@@ -146,6 +148,46 @@ public class BookingService {
                 .toList();
         int numberOfLaundryMachines = (laundryMachineService.getLaundryMachinesByStudentDormitoryId(studentDormitoryDto.id()).size())/2;
         return (int) ((100 * bookingsInCurrentWeek.size()/2) / (49.0 * numberOfLaundryMachines));
+    }
+
+    public List<BookingDto> getBookingsInCurrentWeekByUser(Long userId) {
+        List<BookingDto> bookingsByUser = userRepository.findById(userId)
+                .map(User::getBookingList)
+                .map(BookingMapper::toDtos)
+                .orElse(List.of());
+
+        LocalDate currentDate = LocalDate.now();
+
+        LocalDate mondayOfWeek = currentDate.with(DayOfWeek.MONDAY);
+
+        LocalDate sundayOfWeek = currentDate.with(DayOfWeek.SUNDAY);
+
+        return bookingsByUser
+                .stream()
+                .map(BookingMapper::toEntity)
+                .filter(booking -> booking.getDate().isAfter(mondayOfWeek) && booking.getDate().isBefore(sundayOfWeek))
+                .map(BookingMapper::toDto)
+                .toList();
+    }
+
+    public List<BookingDto> getBookingsInNextWeekByUser(Long userId) {
+        List<BookingDto> bookingsByUser = userRepository.findById(userId)
+                .map(User::getBookingList)
+                .map(BookingMapper::toDtos)
+                .orElse(List.of());
+
+        LocalDate currentDate = LocalDate.now();
+
+        LocalDate mondayOfWeek = currentDate.with(DayOfWeek.MONDAY).plusDays(7);
+
+        LocalDate sundayOfWeek = currentDate.with(DayOfWeek.SUNDAY).plusDays(7);
+
+        return bookingsByUser
+                .stream()
+                .map(BookingMapper::toEntity)
+                .filter(booking -> booking.getDate().isAfter(mondayOfWeek) && booking.getDate().isBefore(sundayOfWeek))
+                .map(BookingMapper::toDto)
+                .toList();
     }
 }
 
