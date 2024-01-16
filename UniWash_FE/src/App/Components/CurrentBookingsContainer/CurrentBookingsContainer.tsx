@@ -133,7 +133,7 @@ function CurrentBookingsContainer() {
 								]
 							}
 						>
-							Rezervari curente
+							Rezervări curente
 						</div>
 						<div
 							className={
