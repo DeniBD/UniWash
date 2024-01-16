@@ -63,6 +63,7 @@ function CurrentBookingsContainer() {
 
 		getBookingsInCurrentWeekByUser();
 		getBookingsInNextWeekByUser();
+
 	}, [checked]);
 
 	const deleteBooking = async () => {

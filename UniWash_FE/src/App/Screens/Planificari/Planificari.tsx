@@ -30,6 +30,7 @@ function Planificari() {
 	const [key, setKey] = useState(0);
 
 	const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
+	const [bookedSpotsByUser, setBookedSpotsByUser] = useState(0);
 
 	const [laundryMachines, setLaundryMachines] = useState<LaundryMachine[]>(
 		[]
@@ -97,8 +98,17 @@ function Planificari() {
 			}
 		};
 
+		const getBookedSpotsByUser = async () => {
+			await axios.get(
+				"http://localhost:8090/bookings/1",
+			).then((response) => {
+
+			setBookedSpotsByUser(response.data.length/2);});
+		}
+
 		getAvailableBookingSpots();
-	}, [selectedMachine, defaultView, selectedDate]);
+		getBookedSpotsByUser();
+	}, [selectedMachine, defaultView, selectedDate, key]);
 
 	const bookWashingMachine = async () => {
 		if (selectedMachine) {
@@ -369,7 +379,8 @@ function Planificari() {
 				</div> */}
 				<div className={PlanificariCSS["statistics_cards_container"]}>
 					<div className={PlanificariCSS["statistics_card"]}>
-						<StatisticsCard title="Numar spalari" content={10} />
+					
+						<StatisticsCard title="Numar spalari" content={bookedSpotsByUser} />
 					</div>
 					<div className={PlanificariCSS["statistics_card"]}>
 						<StatisticsCard title="Numar spalari" content={10} />

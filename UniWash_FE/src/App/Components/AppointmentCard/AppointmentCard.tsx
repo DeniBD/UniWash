@@ -17,7 +17,7 @@ function AppointmentCard(props: {
 				</div>
                 <div className={AppointmentCardCSS["card_time"]}>
                     {props.date ?? null}
-                    {",  "}
+                    {props.date ? ",  " : null}
                     {props.start_time + ":00 - "}
 					{props.start_time + 2 + ":00"}
                 </div>

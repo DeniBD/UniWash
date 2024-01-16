@@ -14,8 +14,18 @@ import CurrentBookingsContainer from "../../Components/CurrentBookingsContainer/
 function Dashboard() {
 	const [bookedSpotsInCurrentWeek, setBookedSpotsInCurrentWeek] = useState(0);
 	const [bookedSpotsInNextWeek, setBookedSpotsInNextWeek] = useState(0);
+	const [bookedSpotsByUser, setBookedSpotsByUser] = useState(0);
 
 	useEffect(() => {
+
+		const getBookedSpotsByUser = async () => {
+			await axios.get(
+				"http://localhost:8090/bookings/1",
+			).then((response) => {
+
+			setBookedSpotsByUser(response.data.length/2);});
+		}
+
 		const getBookedSpotsInCurrentWeek = async () => {
 			await axios.post(
 				"http://localhost:8090/bookings/booked-spots-in-current-week",
@@ -44,6 +54,7 @@ function Dashboard() {
 
 		getBookedSpotsInCurrentWeek();
 		getBookedSpotsInNextWeek();
+		getBookedSpotsByUser();
 	}, []);
 
 	return (
@@ -83,7 +94,7 @@ function Dashboard() {
 				</div>
 
 				<div className={DashboardCSS["rezervari_curente_container"]}>
-					<CurrentBookingsContainer />
+					<CurrentBookingsContainer/>
 				</div>
 			</div>
 
@@ -93,7 +104,7 @@ function Dashboard() {
 				</div> */}
 				<div className={DashboardCSS["statistics_cards_container"]}>
 					<div className={DashboardCSS["statistics_card"]}>
-						<StatisticsCard title="Numar spalari" content={10} />
+						<StatisticsCard title="Numar spalari" content={bookedSpotsByUser} />
 					</div>
 					<div className={DashboardCSS["statistics_card"]}>
 						<StatisticsCard title="Numar spalari" content={10} />
