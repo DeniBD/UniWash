@@ -32,52 +32,65 @@ const Login = () => {
         setPasswordError('');
 
         // Email and password validation
-        const emailRegex = /^[a-zA-Z]+.[a-zA-Z]+@e-uvt\.ro$/;
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        const emailRegex = /^[a-zA-Z]+\.?[a-zA-Z]*\d{2}@e-uvt\.ro$/;
+        const passwordRegex = /.+/;
 
         let valid = true;
 
         if (!emailRegex.test(email)) {
-            setEmailError("Invalid email format. It should be FullName@e-uvt.ro");
+            setEmailError("Invalid email format.");
             valid = false;
         }
 
-        if (!passwordRegex.test(password)) {
-            setPasswordError("Password must be at least 8 characters long and include at least one uppercase letter, one number, and one symbol.");
-            valid = false;
-        }
+        // if (!passwordRegex.test(password)) {
+        //     setPasswordError("Password must be at least 8 characters long and include at least one uppercase letter, one number, and one symbol.");
+        //     valid = false;
+        // }
 
         if (!valid) {
             return; // Stop the login process if validation fails
         }
 
-        navigate('/dashboard'); //asta se sterge dupa ce verificam logarea ca merge
+        // navigate('/dashboard'); //asta se sterge dupa ce verificam logarea ca merge
 
-        // try {
-        //     const response = await axios.post('http://localhost:8090/auth/login', {
-        //         email: email,
-        //         password: password,
-        //     });
-        //
-        //     // Assuming the server sends back a token or user data
-        //     // You might want to do something with this data, like storing it for future requests
-        //     if (response.data) {
-        //         // Example: localStorage.setItem('authToken', response.data.token);
-        //
-        //         // Navigate to the dashboard on successful login
-        //         navigate('/dashboard');
-        //     }
-        // } catch (error: unknown) {
-        //     // Check if the error is an instance of the Error class
-        //     if (error instanceof Error) {
-        //         console.error('Login failed:', error.message);
-        //         alert('Login failed. Please check your credentials and try again.');
-        //     } else {
-        //         // Handle cases where the error is not an Error object
-        //         console.error('An unexpected error occurred:', error);
-        //         alert('An unexpected error occurred. Please try again.');
-        //     }
-        // }
+
+        try {
+            // Step 1: Fetch the user by their email
+            const userResponse = await axios.get(`http://localhost:8090/users/email/${email}`);
+
+            // Assuming the server sends back the user data including the password
+            // Note: Passwords should not be sent over an API and should be compared on the server.
+            const user = userResponse.data;
+
+            // Step 2: Compare the provided password with the one from the user data
+            // This is a placeholder: You should have password hashing and comparison logic on the server
+            if (user && user.password === password) {
+                // Login successful
+
+                // Store any relevant data in localStorage or context
+                // Navigate to the dashboard
+                navigate('/dashboard');
+            } else {
+                // Passwords don't match or user not found
+                setPasswordError('Invalid credentials.');
+            }
+        } catch (error: unknown) {
+            // Type check and handle the error
+            if (axios.isAxiosError(error)) {
+                // Handle error returned from Axios request
+                const message = error.response?.data?.message || 'Login failed. Please try again.';
+                setEmailError(message);
+            } else if (error instanceof Error) {
+                // Handle generic errors
+                console.error('Login failed:', error.message);
+                alert('Login failed. Please check your credentials and try again.');
+            } else {
+                // Handle cases where the error is not an Error object
+                console.error('An unexpected error occurred:', error
+                );
+                alert('An unexpected error occurred. Please try again.');
+            }
+        }
 
     }
     
