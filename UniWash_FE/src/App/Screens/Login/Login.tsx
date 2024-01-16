@@ -6,9 +6,11 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {IconButton, InputAdornment} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import { useUser } from '../../Components/ClientContext/ClientContext';
 const Login = () => {
     const clientId = "21799809046-p643b3dhbgpbqsfrujgp23vndshpu4so.apps.googleusercontent.com";
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     const [email, setEmail] = useState(''); // State for email
     const [password, setPassword] = useState(''); // State for password
@@ -53,9 +55,11 @@ const Login = () => {
             // Step 2: Compare the provided password with the one from the user data
             // This is a placeholder: You should have password hashing and comparison logic on the server
             if (user && user.password === password) {
-                // Login successful
 
-                // Store any relevant data in localStorage or context
+                setUser({
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                });
                 
                 if (user.is_admin) {
                     navigate('/adminDashboard');

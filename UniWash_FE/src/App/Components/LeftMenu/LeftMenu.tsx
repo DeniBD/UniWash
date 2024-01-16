@@ -7,11 +7,14 @@ import LeftMenuCSS from './LeftMenu.module.css';
 import Time from '../../Assets/time.png';
 import React from 'react';
 import { GoogleLogout } from 'react-google-login';
+import { useUser } from '../ClientContext/ClientContext';
+
 
 function LeftMenu ( props: { selected: string } ) {
     const clientId = "21799809046-p643b3dhbgpbqsfrujgp23vndshpu4so.apps.googleusercontent.com";
 
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     var selected = props.selected;
 
@@ -19,6 +22,15 @@ function LeftMenu ( props: { selected: string } ) {
         navigate('/');
     }
 
+    const handleLogoutClient = () => {
+
+        try {
+            setUser(null);
+            navigate('/');
+        } catch (error) {
+            console.error('Logout failed', error);
+        }
+    };
 
     return (
         <div className={LeftMenuCSS["container"]}>
@@ -62,10 +74,10 @@ function LeftMenu ( props: { selected: string } ) {
              <div>
                     <img className={LeftMenuCSS["time_photo"]} src={Time} alt="time" />
             </div>
-           {/* <div id="signOutButton" onClick={handleLogout} className={LeftMenuCSS["button"]}>
+           <div id="signOutButton" onClick={handleLogoutClient} className={LeftMenuCSS["button"]}>
                 <LogoutIcon className={LeftMenuCSS["icon"]} />
                 Logout
-            </div> */}
+            </div>
 
             <div >
                 <GoogleLogout
