@@ -10,7 +10,6 @@ import LeftMenu from "../../Components/LeftMenu/LeftMenu";
 import WeekCard from "../../Components/WeekCard/WeekCard";
 import StatisticsCard from "../../Components/StatisticsCard/StatisticsCard";
 import CurrentBookingsContainer from "../../Components/CurrentBookingsContainer/CurrentBookingsContainer";
-import React from "react";
 
 function Dashboard() {
 	const [bookedSpotsInCurrentWeek, setBookedSpotsInCurrentWeek] = useState(0);

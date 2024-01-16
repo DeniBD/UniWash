@@ -45,7 +45,7 @@
     align-items: center;
 
     width: 90%;
-    height: 40%;
+    height: 52%;
 }
 
 .rezerva_title {
@@ -137,63 +137,12 @@
 .rezervari_curente_container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-
-    width: 90%;
-    height: 35%;
-    margin-bottom: 100px;
-}
-
-.rezervari_curente_title_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 100%;
-    height: 20%;
-}
-
-.rezervari_curente_title {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.switch_saptamana {
-    display: flex;
     justify-content: flex-start;
     align-items: center;
 
-    width: 30%;
-    height: 100%;
-}
-
-.switch_saptamana_text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 100%;
-
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.rezervari_curente_cards_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 100%;
-
-    margin-top: 10px;
-}
-
-.rezervari_curente_card {
-    width: 45%;
-    height: 80px;
+    width: 90%;
+    height: 25%;
+    margin-top: 3%;
 }
 
 .statistics_container {

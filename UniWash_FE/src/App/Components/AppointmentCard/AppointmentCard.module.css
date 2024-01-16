@@ -1,4 +1,3 @@
-
 .card {
     display: flex;
     flex-direction: row;
@@ -39,6 +38,18 @@
 }
 
 .card_time {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    font-size: 12px;
+
+    width: 80%;
+
+    color: #b2b2b2;
+}
+
+.card_date {
     display: flex;
     justify-content: flex-start;
     align-items: center;
