@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("bookings")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -54,13 +55,13 @@ public class BookingController {
         return ResponseEntity.ok(availableBookingSpots);
     }
 
-    @GetMapping("booked-spots-in-current-week")
+    @PostMapping("booked-spots-in-current-week")
     public ResponseEntity<Integer> getBookedSlotsForCurrentWeek(@RequestBody StudentDormitoryDto studentDormitoryDto){
         Integer availableBookingSpots = bookingService.getBookedSlotsForCurrentWeek(studentDormitoryDto);
         return ResponseEntity.ok(availableBookingSpots);
     }
 
-    @GetMapping("booked-spots-in-next-week")
+    @PostMapping("booked-spots-in-next-week")
     public ResponseEntity<Integer> getBookedSlotsForNextWeek(@RequestBody StudentDormitoryDto studentDormitoryDto){
         Integer availableBookingSpots = bookingService.getBookedSlotsForNextWeek(studentDormitoryDto);
         return ResponseEntity.ok(availableBookingSpots);

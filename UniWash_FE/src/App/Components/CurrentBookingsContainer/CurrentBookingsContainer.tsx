@@ -9,7 +9,6 @@ import CurrentBookingsContainerCSS from "./CurrentBookingsContainer.module.css";
 import AppointmentCard from "../../Components/AppointmentCard/AppointmentCard";
 
 import Booking from "../../Interfaces/Booking";
-import React from "react";
 
 function CurrentBookingsContainer() {
 	const [checked, setChecked] = useState(false);
@@ -44,7 +43,7 @@ function CurrentBookingsContainer() {
 
 		getBookingsInCurrentWeekByUser();
 		getBookingsInNextWeekByUser();
-	}, []);
+	}, [checked]);
 
 	return (
 		<>
@@ -84,7 +83,7 @@ function CurrentBookingsContainer() {
 									]
 								}
 							>
-								Saptamana urmatoare
+								Săptamâna următoare
 							</div>
 						</div>
 					</div>
@@ -105,7 +104,7 @@ function CurrentBookingsContainer() {
 									}
 								>
 									<AppointmentCard
-										title={booking.laundry.name}
+										title={ index === 0 ? "Masina " + booking.laundry.name : "Uscator " + booking.laundry.name}
 										start_time={parseInt(
 											booking.startTime.substring(
 												0,
@@ -154,7 +153,7 @@ function CurrentBookingsContainer() {
 									]
 								}
 							>
-								Saptamana curenta
+								Săptamâna curentă
 							</div>
 						</div>
 					</div>
@@ -175,7 +174,7 @@ function CurrentBookingsContainer() {
 									}
 								>
 									<AppointmentCard
-										title={booking.laundry.name}
+										title={ index === 0 ? "Masina " + booking.laundry.name : "Uscator " + booking.laundry.name}
 										start_time={parseInt(
 											booking.startTime.substring(
 												0,

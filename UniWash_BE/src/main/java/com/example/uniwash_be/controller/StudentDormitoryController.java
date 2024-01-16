@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("dormitory")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentDormitoryController {
 
     private final StudentDormitoryService studentDormitoryService;

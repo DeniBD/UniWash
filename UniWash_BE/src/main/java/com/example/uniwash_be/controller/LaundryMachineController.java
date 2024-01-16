@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("laundry-machine")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LaundryMachineController {
 
     private final LaundryMachineService laundryMachineService;

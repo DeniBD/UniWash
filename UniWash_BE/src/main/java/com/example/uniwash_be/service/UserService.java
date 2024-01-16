@@ -38,4 +38,9 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow();
         return userMapper.toDto(user);
     }
+
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        return userMapper.toDto(user);
+    }
 }

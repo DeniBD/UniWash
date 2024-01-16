@@ -18,29 +18,29 @@ function Dashboard() {
 
 	useEffect(() => {
 		const getBookedSpotsInCurrentWeek = async () => {
-			const response = await axios.post(
+			await axios.post(
 				"http://localhost:8090/bookings/booked-spots-in-current-week",
 				{
 					id: 1,
 					name: "C13",
 					laundryMachines: [],
 				}
-			);
+			).then((response) => {
 
-			setBookedSpotsInCurrentWeek(response.data);
+			setBookedSpotsInCurrentWeek(response.data);});
 		};
 
 		const getBookedSpotsInNextWeek = async () => {
-			const response = await axios.post(
+			await axios.post(
 				"http://localhost:8090/bookings/booked-spots-in-next-week",
 				{
 					id: 1,
 					name: "C13",
 					laundryMachines: [],
 				}
-			);
+			).then((response) => {
 
-			setBookedSpotsInNextWeek(response.data);
+			setBookedSpotsInNextWeek(response.data);});
 		};
 
 		getBookedSpotsInCurrentWeek();
@@ -66,7 +66,7 @@ function Dashboard() {
 					<div className={DashboardCSS["rezerva_cards_container"]}>
 						<div className={DashboardCSS["rezerva_card"]}>
 							<WeekCard
-								title="Saptamana curenta"
+								title="Săptămâna curentă"
 								percent={bookedSpotsInCurrentWeek}
 								primary_color="#369fff"
 								secondary_color="#208bee"
@@ -74,7 +74,7 @@ function Dashboard() {
 						</div>
 						<div className={DashboardCSS["rezerva_card"]}>
 							<WeekCard
-								title="Saptamana urmatoare"
+								title="Săptămâna următoare"
 								percent={bookedSpotsInNextWeek}
 								primary_color="#ff993a"
 								secondary_color="#ff7e07"

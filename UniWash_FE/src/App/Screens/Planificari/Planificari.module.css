@@ -73,16 +73,16 @@
     justify-content: center;
     align-items: center;
 
-    width: 80px;
-    height: 80%;
+    width: 170px;
+    height: 65%;
 
     border-radius: 10px;
 
-    background-color: #369fff;
+    background-color: #d7ecff;
 }
 
 .rezerva_title_button:hover {
-    background-color: #ffffff;
+    background-color: #369fff;
     
     cursor: pointer;
 }
@@ -223,6 +223,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+
+    margin-top: 10%;
 
     width: 80%;
     height: 55%;

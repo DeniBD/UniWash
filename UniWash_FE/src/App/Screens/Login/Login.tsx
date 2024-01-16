@@ -1,12 +1,24 @@
 import { Button, Grid, Paper, TextField } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import "./Login.css";
+import {GoogleLogin} from 'react-google-login';
 import React from 'react';
 const Login = () => {
+    const clientId = "21799809046-p643b3dhbgpbqsfrujgp23vndshpu4so.apps.googleusercontent.com";
     const navigate = useNavigate();
     const handleLogin = () => {
-        navigate('/dashboard');
+        //navigate('/dashboard');
     }
+    
+    const handleLoginFailure = () => {
+        alert("Login failed");
+    }
+    
+    const handleLoginSuccess = () => {
+        navigate('/dashboard');
+        //alert("Login success");
+    }
+    
     return (
         <Grid container className="page">
             <Grid item xs={12} sm={7} md={7} lg={8}>
@@ -54,9 +66,19 @@ const Login = () => {
                             <div className="line"></div>
                         </div>
 
-                        <Button className="google_button">
+                        {/* <Button className="google_button">
                             <img className="google" src={require('../../Assets/googleLogo.png')} alt="Logo" />
-                        </Button>
+                        </Button> */}
+                        <div className="google_button" id="signInButton">
+                        <GoogleLogin
+                        clientId={clientId}
+                        onSuccess={handleLoginSuccess}
+                        onFailure={handleLoginFailure}
+                        cookiePolicy={'single_host_origin'}
+                        isSignedIn={true}
+                        buttonText="Login with Google"
+                    />
+                        </div>
                     </form>
                 </Paper>
             </Grid>

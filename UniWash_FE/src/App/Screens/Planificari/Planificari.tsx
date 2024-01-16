@@ -9,6 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import PlanificariCSS from "./Planificari.module.css";
 import Stats from "../../Assets/stats.png";
+
 import LeftMenu from "../../Components/LeftMenu/LeftMenu";
 import AppointmentCard from "../../Components/AppointmentCard/AppointmentCard";
 import DashboardCSS from "../Dashboard/Dashboard.module.css";
@@ -18,10 +19,9 @@ import CurrentBookingsContainer from "../../Components/CurrentBookingsContainer/
 import LaundryMachine from "../../Interfaces/LaundryMachine";
 import AvailableBookingSpot from "../../Interfaces/AvailableBookingSpot";
 import LaundryMachineCard from "../../Components/LaundryMachineCard/LaundryMachineCard";
-import React from "react";
 
 function Planificari() {
-	const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs("2024-01-03"));
+	const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
 
 	const [laundryMachines, setLaundryMachines] = useState<LaundryMachine[]>([]);
 
@@ -32,7 +32,7 @@ function Planificari() {
 
 	useEffect(() => {
 		const getLaundryMachines = async () => {
-			const dormitoryId = 1;
+			const dormitoryId = 2;
 
 			await axios.get(
 				"http://localhost:8090/laundry-machine/" + dormitoryId
@@ -69,6 +69,31 @@ function Planificari() {
 		getAvailableBookingSpots();
 	}, [selectedMachine, defaultView, selectedDate]);
 
+	const bookWashingMachine = async (startTime: string) => {
+		if (selectedMachine) {
+			axios.post("http://localhost:8090/bookings", {
+				id: null,
+				date: selectedDate?.format("YYYY-MM-DD"),
+				startTime: startTime,
+				status: "Active",
+				laundry: selectedMachine,
+				user: {
+					id: 1,
+					email: "bran.alexandru1@gmail.com",
+					password: "09112002",
+					phoneNumber: "0773897833",
+					is_admin: false,
+					dormitory: null,
+					bookingList: null
+				}
+			}).catch((error) => {
+				console.log(error);
+			});
+		}
+
+		setDefaultView(true);
+	};
+
 	return (
 		<div className={PlanificariCSS["page"]}>
 			<div className={PlanificariCSS["menu_container"]}>
@@ -89,7 +114,7 @@ function Planificari() {
 							Rezerva masina de spalat
 						</div>
 						<div className={PlanificariCSS["rezerva_title_button"]} onClick={() => { setDefaultView(true) }}>
-							Back
+							Mașini disponibile
 						</div>
 						<div className={PlanificariCSS["rezerva_title_datepicker"]}>
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -182,10 +207,11 @@ function Planificari() {
 												}
 											>
 												<AppointmentCard
-													title={selectedMachine?.name as string}
+													title={"Masina " + selectedMachine?.name as string}
 													start_time={
 														parseInt(availableBookingSpot.time.substring(0, availableBookingSpot.time.indexOf(":")))
 													}
+													onClick={() => {bookWashingMachine(availableBookingSpot.time)}}
 												/>
 											</div>
 										);
@@ -207,10 +233,11 @@ function Planificari() {
 												}
 											>
 												<AppointmentCard
-													title={selectedMachine?.name as string}
+													title={"Masina " + selectedMachine?.name as string}
 													start_time={
 														parseInt(availableBookingSpot.time.substring(0, availableBookingSpot.time.indexOf(":")))
 													}
+													onClick={() => {bookWashingMachine(availableBookingSpot.time)}}
 												/>
 											</div>
 										);
@@ -226,9 +253,9 @@ function Planificari() {
 			</div>
 
 			<div className={DashboardCSS["statistics_container"]}>
-				<div className={DashboardCSS["statistics_title"]}>
+				{/* <div className={DashboardCSS["statistics_title"]}>
 					Statistici
-				</div>
+				</div> */}
 				<div className={DashboardCSS["statistics_cards_container"]}>
 					<div className={DashboardCSS["statistics_card"]}>
 						<StatisticsCard title="Numar spalari" content={10} />
