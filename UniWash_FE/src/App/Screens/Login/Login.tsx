@@ -27,13 +27,10 @@ const Login = () => {
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
 
-        // Clear previous errors
         setEmailError('');
         setPasswordError('');
 
-        // Email and password validation
         const emailRegex = /^[a-zA-Z]+\.?[a-zA-Z]*\d{2}@e-uvt\.ro$/;
-        const passwordRegex = /.+/;
 
         let valid = true;
 
@@ -42,20 +39,11 @@ const Login = () => {
             valid = false;
         }
 
-        // if (!passwordRegex.test(password)) {
-        //     setPasswordError("Password must be at least 8 characters long and include at least one uppercase letter, one number, and one symbol.");
-        //     valid = false;
-        // }
-
         if (!valid) {
-            return; // Stop the login process if validation fails
+            return;
         }
 
-        // navigate('/dashboard'); //asta se sterge dupa ce verificam logarea ca merge
-
-
         try {
-            // Step 1: Fetch the user by their email
             const userResponse = await axios.get(`http://localhost:8090/users/email/${email}`);
 
             // Assuming the server sends back the user data including the password
@@ -68,24 +56,25 @@ const Login = () => {
                 // Login successful
 
                 // Store any relevant data in localStorage or context
-                // Navigate to the dashboard
-                navigate('/dashboard');
+                
+                if (user.is_admin) {
+                    navigate('/adminDashboard');
+                } else {
+                    navigate('/dashboard');
+                }
+
             } else {
                 // Passwords don't match or user not found
                 setPasswordError('Invalid credentials.');
             }
         } catch (error: unknown) {
-            // Type check and handle the error
             if (axios.isAxiosError(error)) {
-                // Handle error returned from Axios request
                 const message = error.response?.data?.message || 'Login failed. Please try again.';
                 setEmailError(message);
             } else if (error instanceof Error) {
-                // Handle generic errors
                 console.error('Login failed:', error.message);
                 alert('Login failed. Please check your credentials and try again.');
             } else {
-                // Handle cases where the error is not an Error object
                 console.error('An unexpected error occurred:', error
                 );
                 alert('An unexpected error occurred. Please try again.');
