@@ -93,14 +93,11 @@ function AdminDashboard() {
                 {/* <div className={DashboardCSS["statistics_title"]}>
 					Statistici
 				</div> */}
-                <div className={AdminDashboardCSS["statistics_cards_container"]}>
-                    <div className={AdminDashboardCSS["statistics_card"]}>
-                        <StatisticsCard title="Numar spalari" content={10} />
-                    </div>
-                    <div className={AdminDashboardCSS["statistics_card"]}>
-                        <StatisticsCard title="Numar spalari" content={10} />
-                    </div>
-                </div>
+                {/*<div className={AdminDashboardCSS["statistics_cards_container"]}>*/}
+                {/*    <div className={AdminDashboardCSS["statistics_card"]}>*/}
+                {/*        <StatisticsCard title="Numar spalari" content={10} />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className={AdminDashboardCSS["statistics_photo_container"]}>
                     <img
                         src={Stats}
