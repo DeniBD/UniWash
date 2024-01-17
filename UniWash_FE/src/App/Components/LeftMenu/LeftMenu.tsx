@@ -15,6 +15,9 @@ function LeftMenu ( props: { selected: string } ) {
 
     const navigate = useNavigate();
     const { setUser } = useUser();
+    const { user } = useUser();
+    const isAdmin = user?.isAdmin;
+    console.log(isAdmin);
 
     var selected = props.selected;
 
@@ -39,27 +42,29 @@ function LeftMenu ( props: { selected: string } ) {
             <div className={LeftMenuCSS["title"]}>
                 UniWash
             </div>
-            
+
             {selected === "Dashboard" ? (
-                <div className={LeftMenuCSS["selected_button"]} onClick={() => {navigate("/dashboard")}}>
-                <HomeOutlinedIcon className={LeftMenuCSS["icon"]} onClick={() => {navigate("/dashboard")}} />
+                <div className={LeftMenuCSS["selected_button"]} onClick={() => navigate(isAdmin ? "/adminDashboard" : "/dashboard")}>
+                    <HomeOutlinedIcon className={LeftMenuCSS["icon"]} />
                     Dashboard
                 </div>
             ) : (
-                <div className={LeftMenuCSS["button"]} onClick={() => {navigate("/dashboard")}}>
-                    <HomeOutlinedIcon className={LeftMenuCSS["icon"]} onClick={() => {navigate("/dashboard")}} />
+                <div className={LeftMenuCSS["button"]} onClick={() => navigate(isAdmin ? "/adminDashboard" : "/dashboard")}>
+                    <HomeOutlinedIcon className={LeftMenuCSS["icon"]} />
                     Dashboard
                 </div>
             )}
+
             {selected === "Planificari" ? (
-                <div className={LeftMenuCSS["selected_button"]} onClick={() => {navigate("/planificari")}}>
-                    <AppsOutlinedIcon className={LeftMenuCSS["icon"]} onClick={() => {navigate("/planificari")}} />
-                    Planificări
+                <div className={LeftMenuCSS["selected_button"]} onClick={() => navigate(isAdmin ? "/adminPlanificari" : "/planificari")}>
+                    <AppsOutlinedIcon className={LeftMenuCSS["icon"]} />
+                    Planificari
                 </div>
             ) : (
-                <div className={LeftMenuCSS["button"]} onClick={() => {navigate("/planificari")}}>
-                    <AppsOutlinedIcon className={LeftMenuCSS["icon"]} onClick={() => {navigate("/planificari")}} />
-                    Planificări
+                <div className
+                         ={LeftMenuCSS["button"]} onClick={() => navigate(isAdmin ? "/adminPlanificari" : "/planificari")}>
+                    <AppsOutlinedIcon className={LeftMenuCSS["icon"]} />
+                    Planificari
                 </div>
             )}
             {/* {selected === "Mesaje" ? (

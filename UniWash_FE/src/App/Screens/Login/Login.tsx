@@ -48,19 +48,15 @@ const Login = () => {
         try {
             const userResponse = await axios.get(`http://localhost:8090/users/email/${email}`);
 
-            // Assuming the server sends back the user data including the password
-            // Note: Passwords should not be sent over an API and should be compared on the server.
             const user = userResponse.data;
 
-            // Step 2: Compare the provided password with the one from the user data
-            // This is a placeholder: You should have password hashing and comparison logic on the server
             if (user && user.password === password) {
 
                 setUser({
                     email: user.email,
-                    isAdmin: user.isAdmin,
+                    isAdmin: user.is_admin,
                 });
-                
+
                 if (user.is_admin) {
                     navigate('/adminDashboard');
                 } else {
