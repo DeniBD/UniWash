@@ -16,6 +16,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import User from "../../Interfaces/User";
 
 function CurrentBookingsContainer() {
 	const [checked, setChecked] = useState(false);
@@ -30,6 +31,8 @@ function CurrentBookingsContainer() {
 
 	const [open, setOpen] = useState(false);
 
+	const [user, setUser] = useState<User>({ id: 0, email: "", dormitory: { id: 0, name: "", laundryMachines: [] }, password: "", phone_number: "", is_admin: false, bookings: [] });
+
 	const handleOpen = (bookingId: number) => {
 		setBookingId(bookingId);
 		setOpen(true);
@@ -38,24 +41,35 @@ function CurrentBookingsContainer() {
 	const handleClose = () => {
 		setOpen(false);
 	};
+	useEffect(() => {
+
+		const getUserByEmail = async () => {
+			const email = localStorage.getItem('email');
+
+			const response = await axios.get(
+				"http://localhost:8090/users/email/" + email
+			);
+
+			setUser(response.data);
+		};
+		getUserByEmail();
+	}, []);
 
 	useEffect(() => {
 		const getBookingsInCurrentWeekByUser = async () => {
-			const userId = 1;
 
 			const response = await axios.get(
 				"http://localhost:8090/bookings/bookings-in-current-week/" +
-					userId
+					user.id
 			);
 
 			setBookingsInCurrentWeekByUser(response.data);
 		};
 
 		const getBookingsInNextWeekByUser = async () => {
-			const userId = 1;
 
 			const response = await axios.get(
-				"http://localhost:8090/bookings/bookings-in-next-week/" + userId
+				"http://localhost:8090/bookings/bookings-in-next-week/" + user.id
 			);
 
 			setBookingsInNextWeekByUser(response.data);
@@ -64,7 +78,7 @@ function CurrentBookingsContainer() {
 		getBookingsInCurrentWeekByUser();
 		getBookingsInNextWeekByUser();
 
-	}, [checked]);
+	}, [checked, user]);
 
 	const deleteBooking = async () => {
 		await axios.delete(

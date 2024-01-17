@@ -25,9 +25,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import User from "../../Interfaces/User";
 
 function Planificari() {
 	const [key, setKey] = useState(0);
+	const [user, setUser] = useState<User>({ id: 0, email: "", dormitory: { id: 0, name: "", laundryMachines: [] }, password: "", phone_number: "", is_admin: false, bookings: [] });
 
 	const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
 	const [bookedSpotsByUser, setBookedSpotsByUser] = useState(0);
@@ -58,11 +60,24 @@ function Planificari() {
 	};
 
 	useEffect(() => {
+
+		const getUserByEmail = async () => {
+			const email = localStorage.getItem('email');
+
+			const response = await axios.get(
+				"http://localhost:8090/users/email/" + email
+			);
+
+			setUser(response.data);
+		};
+		getUserByEmail();
+	}, []);
+
+	useEffect(() => {
 		const getLaundryMachines = async () => {
-			const dormitoryId = 2;
 
 			await axios
-				.get("http://localhost:8090/laundry-machine/" + dormitoryId)
+				.get("http://localhost:8090/laundry-machine/" + user.dormitory.id)
 				.then((response) => {
 					const tmp = response.data as LaundryMachine[];
 
@@ -80,7 +95,7 @@ function Planificari() {
 		};
 
 		getLaundryMachines();
-	}, []);
+	}, [user]);
 
 	useEffect(() => {
 		const getAvailableBookingSpots = async () => {
@@ -100,7 +115,7 @@ function Planificari() {
 
 		const getBookedSpotsByUser = async () => {
 			await axios.get(
-				"http://localhost:8090/bookings/1",
+				"http://localhost:8090/bookings/" + user.id ,
 			).then((response) => {
 
 			setBookedSpotsByUser(response.data.length/2);});
@@ -108,7 +123,7 @@ function Planificari() {
 
 		getAvailableBookingSpots();
 		getBookedSpotsByUser();
-	}, [selectedMachine, defaultView, selectedDate, key]);
+	}, [selectedMachine, defaultView, selectedDate, key, user]);
 
 	const bookWashingMachine = async () => {
 		if (selectedMachine) {
@@ -119,25 +134,18 @@ function Planificari() {
 					startTime: startTime,
 					status: "Active",
 					laundry: selectedMachine,
-					user: {
-						id: 1,
-						email: "bran.alexandru1@gmail.com",
-						password: "09112002",
-						phoneNumber: "0773897833",
-						is_admin: false,
-						dormitory: null,
-						bookingList: null,
-					},
+					user: user,
 				})
 				.then(() => {
 					setKey(key + 1);
 					handleClose();
 				})
 				.catch((error) => {
-					console.log(error);
+					alert("Ai deja o rezervare în săptămâna selectată!");
+					handleClose();
 				});
 		}
-
+		handleClose();
 		setDefaultView(true);
 	};
 
@@ -381,9 +389,6 @@ function Planificari() {
 					<div className={PlanificariCSS["statistics_card"]}>
 					
 						<StatisticsCard title="Numar spalari" content={bookedSpotsByUser} />
-					</div>
-					<div className={PlanificariCSS["statistics_card"]}>
-						<StatisticsCard title="Numar spalari" content={10} />
 					</div>
 				</div>
 				<div className={PlanificariCSS["statistics_photo_container"]}>

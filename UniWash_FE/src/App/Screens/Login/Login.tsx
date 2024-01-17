@@ -64,6 +64,7 @@ const Login = () => {
                 if (user.is_admin) {
                     navigate('/adminDashboard');
                 } else {
+                    localStorage.setItem('email', email);
                     navigate('/dashboard');
                 }
 
@@ -91,7 +92,9 @@ const Login = () => {
         alert("Login failed");
     }
     
-    const handleLoginSuccess = () => {
+    const handleLoginSuccess = (response: any) => {
+        localStorage.setItem('email', response.wt.cu);
+        localStorage.setItem('google', "true");
         navigate('/dashboard');
         //alert("Login success");
     }

@@ -19,6 +19,7 @@ function LeftMenu ( props: { selected: string } ) {
     var selected = props.selected;
 
     const handleLogout = () => {
+        localStorage.clear();
         navigate('/');
     }
 
@@ -26,6 +27,7 @@ function LeftMenu ( props: { selected: string } ) {
 
         try {
             setUser(null);
+            localStorage.clear();
             navigate('/');
         } catch (error) {
             console.error('Logout failed', error);
@@ -74,19 +76,21 @@ function LeftMenu ( props: { selected: string } ) {
              <div>
                     <img className={LeftMenuCSS["time_photo"]} src={Time} alt="time" />
             </div>
-           <div id="signOutButton" onClick={handleLogoutClient} className={LeftMenuCSS["button"]}>
-                <LogoutIcon className={LeftMenuCSS["icon"]} />
-                Logout
-            </div>
+            { localStorage.getItem('google') === "true" ? (
+                <div >
+                    <GoogleLogout
+                        clientId={clientId}
+                        buttonText="Logout"
+                        onLogoutSuccess={handleLogout}
+                        />
 
-            <div >
-                <GoogleLogout
-                    clientId={clientId}
-                    buttonText="Logout"
-                    onLogoutSuccess={handleLogout}
-                    />
-
-            </div>
+                </div>
+            ) : (
+                <div id="signOutButton" onClick={handleLogoutClient} className={LeftMenuCSS["button"]}>
+                    <LogoutIcon className={LeftMenuCSS["icon"]} />
+                    Logout
+                </div>
+            )}
         </div>
     );
 }

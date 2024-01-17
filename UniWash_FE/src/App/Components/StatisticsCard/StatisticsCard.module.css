@@ -18,7 +18,7 @@
     justify-content: flex-start;
     align-items: center;
 
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     color: #606470;
 
@@ -32,7 +32,7 @@
     justify-content: flex-end;
     align-items: center;
 
-    font-size: 34px;
+    font-size: 50px;
     font-weight: bold;
     color: #006ed3;
 
@@ -40,5 +40,5 @@
     border-left: 4px solid;
 
     width: 80%;
-    height: 40%;
+    height: 50%;
 }
